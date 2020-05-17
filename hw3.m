@@ -7,7 +7,7 @@ close all
 
 %% Part A. Preparation of the Code
 
-nodeCount = 4; % number of nodes per direction per assembly
+nodeCount = 5; % number of nodes per direction per assembly
 
 initialize(); % Define reactor core
 
@@ -31,22 +31,32 @@ while ~flagOut % Repeat outer iteration until convergence
     stepIn = 1; % inner iteration step counter
     epsin = 0.1; % inner iteration convergence condition
     flagIn = false; % Convergence indicator for inner iteration
+    
+    % initial psi calculation
+    psi(stepOut,:) = zeros(totalNodes,1);
+    for i = 1:totalNodes
+        currComp = node2comp(i);
+        for G = 1:data.ng
+            psi(stepOut,i) = psi(stepOut,i) + data.XSf(currComp,G) * a0(i,G);
+        end
+    end
 
     while ~flagIn % Repeat inner iteration until convergence
-        for n = 1:nodeDim % Node sweep
+        for n = 1:totalNodes % Node sweep
             currNode = nodeOrder(n);
             currComp = node2comp(currNode); % Material composition for this node
             for currGrp = 1:data.ng % Group sweep
-                A3(); % Leakge quadratic expansion; not yet implemented
+                A3(); % Leakge quadratic expansion
                 A4(); % Update source coefficients
                 A5(); % Update flux coefficients
                 A6(); % Update outgoing partial currents 
             end
         end
-        
-        plotFlux();
+               
+
         A7(); % Obtain residual
     end
+     plotFlux();
     A8(); % Update fission source and k-eigenvalue
 end
 

@@ -17,7 +17,20 @@ a(currNode,currGrp,4,:) = (-7*q(currNode,currGrp,2,:)+3*q(currNode,currGrp,4,:)+
 % Source calculation
 S = 1/k(stepOut)*data.Chi(currComp,currGrp)*data.XSf(currComp,:)*a0(currNode,:)'+...
     squeeze(data.XSin(currComp,currGrp,:))'*a0(currNode,:)';
+if ismember(currNode,northNodes)
+    if currNode > 1
+        prevComp = node2comp(currNode-1);
+        D = data.D(currComp,currGrp) + data.D(prevComp,currGrp);
+        beta = D/h;
+        c1L = (6*beta)/(1+12*beta);
+        c2L = (-8*beta)/((1+4*beta)*(1+12*beta));
+        c3L = (1-48*beta^2)/((1+4*beta)*(1+12*beta));
+        c4 = (6*beta)/(1+4*beta);
 
+        
+        
+    prev
+end
 beta = data.D(currComp,currGrp)/h;
 c1 = (6*beta)/(1+12*beta);
 c2 = (-8*beta)/((1+4*beta)*(1+12*beta));
@@ -29,5 +42,4 @@ for dr=1:2
     Jsum=Jsum+(2*a(currNode,currGrp,4,dr)*c1-(1-c2-c3))*...
         (jin(currNode,currGrp,2,dr)+jin(currNode,currGrp,1,dr))/h;
 end
-
 a0(currNode,currGrp) = 1/(data.XSr(currComp,currGrp)+4*c1/h)*(S-Jsum); % Update a0 (node-average flux

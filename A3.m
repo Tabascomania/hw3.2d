@@ -4,7 +4,6 @@
 l0(currNode,currGrp,:) = (jout(currNode,currGrp,2,:)-jin(currNode,currGrp,2,:))/h+...
     (jout(currNode,currGrp,1,:)-jin(currNode,currGrp,1,:))/h;
 
-
 if ismember(currNode,westNodes) % leftmost node; reflective boundary condition
     lkgLx = l0(currNode,currGrp,1);
 else
@@ -30,7 +29,7 @@ else
 end
 
 if ismember(currNode,southNodes) % rightmost node; vacuum boundary condition
-    l(currNode,currGrp,2,2) = (3*l0(currNode,currGrp,2)-lkgLx) / 8;
+    l(currNode,currGrp,2,2) = (3*l0(currNode,currGrp,2)-lkgLy) / 8;
     l(currNode,currGrp,1,2) = l(currNode,currGrp,2,2)-l0(currNode,currGrp,2);
 else
     lkgRy = (jout(currNode+1,currGrp,2,2)-jin(currNode+1,currGrp,2,2))/h+...

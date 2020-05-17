@@ -19,11 +19,11 @@ southNodes = northNodes + totalNodes-nodeDim;
 
 % Red-Black ordering scheme assignment
 counter = 1;
-for i = 1:2:nodeDim
+for i = 1:2:totalNodes
     nodeOrder(counter) = i;
     counter = counter + 1;
 end
-for i = 2:2:nodeDim
+for i = 2:2:totalNodes
     nodeOrder(counter) = i;
     counter = counter + 1;
 end

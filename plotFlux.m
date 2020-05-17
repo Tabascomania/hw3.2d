@@ -56,3 +56,27 @@ plot(fis)
 title("Fission source")
 
 pause
+
+avgP = zeros(nodeDim+1,nodeDim+1);
+avgP(1:nodeDim,1:nodeDim) = reshape(a0(:,1),[nodeDim,nodeDim]);
+surf(avgP)
+pause
+
+
+% phi = zeros(nodeDim*10,nodeDim*10);
+% g = 1;
+% for i = 1:nodeDim
+%     for j = 1:nodeDim
+%         n = (i-1)*nodeDim + j;
+%         for x = 1:10
+%             for y = 1:10
+%                 getFlux();
+%                 phi((i-1)*nodeDim*10+x,(j-1)*nodeDim*10+y) = a0(n,2) + phiX*phiY;
+%             end
+%         end
+%     end
+% end
+% surf(phi);
+% title("Flux Distribution")
+% 
+% pause

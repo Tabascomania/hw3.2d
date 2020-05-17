@@ -9,6 +9,7 @@ readXS(); % Reads cross section input file and stores in "data"
 a = zeros(nodeDim2,data.ng,5,2); % coefficients for flux: direction별로 a1-3 달라.
 q = zeros(nodeDim2,data.ng,5,2); % coefficients for source
 l = zeros(nodeDim2,data.ng,3,2); % coefficients for leakage
+% 노드, 그룹, 다항식차수, (x/y) direction
 
 % Initialize flux to be 1.0;
 for i = 1:nodeDim2; for g = 1:data.ng

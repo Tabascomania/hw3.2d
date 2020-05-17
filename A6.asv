@@ -21,7 +21,7 @@ qq=(currNode-rr)/nodeDim;
 if ~ (rr == 1) % If there is a node on the left...
     jin(currNode-1,currGrp,2,1) = jout(currNode,currGrp,1,1);
 end
-if ~ (rr == 0) % If there is a node on the right
+if ~ (rr == nodeDim-1) % If there is a node on the right
     jin(currNode+1,currGrp,1,1) = jout(currNode,currGrp,2,1);
 end
 if ~ (qq == 0) % If there is a node above...
@@ -34,6 +34,6 @@ end
 if rr == 0
     jin(currNode,currGrp,1,1) = jout(currNode,currGrp,1,1); % Reflective boundary condition
 end
-if qq==0
+if qq==0;
     jin(currNode,currGrp,1,2) = jout(currNode,currGrp,2,2);
 end

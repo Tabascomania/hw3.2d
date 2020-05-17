@@ -13,34 +13,38 @@ for dr=1:2 % x,y에 대해 a3,4 계산
 a(currNode,currGrp,4,dr) = (5*q(currNode,currGrp,2,dr)+3*q(currNode,currGrp,4,dr)-...
     5*a(currNode,currGrp,2,dr)*data.XSr(currComp,currGrp))/(3*(60*data.XSD(currComp,currGrp)+data.XSr(currComp,currGrp)));
 % Update a3
-a(currNode,currGrp,5,dr) = (-7*q(currNode,currGrp,3,dr)+3*q(currNode,currGrp,5,dr)+...
-    7*a(currNode,currGrp,3,dr)*data.XSr(currComp,currGrp))/(3*(140*data.XSD(currComp,currGrp)+data.XSr(currComp,currGrp)));
+a(currNode,currGrp,5,dr) = (-7*q(currNode,currGrp,3,dr)+3*q(currNode,currGrp,5)+...
+    7*a(currNode,currGrp,3)*data.XSr(currComp,currGrp))/(3*(140*data.XSD(currComp,currGrp)+data.XSr(currComp,currGrp)));
 % Update a4
 end
+
 
 
 % Source calculation
 nuSigmaFphi = 0;
 SigmaInPhi = 0;
 for G = 1:data.ng
-    nuSigmaFphi = nuSigmaFphi + data.XSf(currComp,G)*a(currNode,G,1,1);
-    SigmaInPhi = SigmaInPhi + data.XSin(currComp,currGrp,G)*a(currNode,G,1,1);
+    nuSigmaFphi = nuSigmaFphi + data.XSf(currComp,G)*a(currNode,G,1);
+    SigmaInPhi = SigmaInPhi + data.XSin(currComp,currGrp,G)*a(currNode,G,1);
 end
 S = 1/k(stepOut)*data.Chi(currComp,currGrp)*nuSigmaFphi + SigmaInPhi;
+% S = q(currNode,currGrp,1);
 beta = data.D(currComp,currGrp)/h;
 c1 = (6*beta)/(1+12*beta);
 c2 = (-8*beta)/((1+4*beta)*(1+12*beta));
 c3 = (1-48*beta^2)/((1+4*beta)*(1+12*beta));
 c4 = (6*beta)/(1+4*beta);
-% hx=hy=h니까 c는 다 같다
 
-Jsum=0;
-for dr=1:2
-    Jsum=Jsum+(2*a(currNode,currGrp,5,dr)*c1-(1-c2-c3))*...
-        (jin(currNode,currGrp,2,dr)+jin(currNode,currGrp,1,dr))/h;
-end
+% Jr = c1 * a(currNode,currGrp,1) + c3 * jin(currNode,currGrp,2,1) + c2 * jin(currNode,currGrp,1,1) + ...
+%     c4 * a(currNode,currGrp,4) + c1 * a(currNode,currGrp,5);
+% Jl = c1 * a(currNode,currGrp,1) + c3 * jin(currNode,currGrp,1,1) + c2 * jin(currNode,currGrp,2,1) - ...
+%     c4 * a(currNode,currGrp,4) + c1 * a(currNode,currGrp,5);
+% 
+% temp = ((Jr-jin(currNode,currGrp,2,1))-(jin(currNode,currGrp,1,1)-Jl))/h;
+% a(currNode,currGrp,1) = 1/data.XSr(currComp,currGrp)*(S-temp);
 
-a(currNode,currGrp,1,:) = 1/(data.XSr(currComp,currGrp)+2*c1/h)*...
-    (S-Jsum);
+a(currNode,currGrp,1) = 1/(data.XSr(currComp,currGrp)+2*c1/h)*...
+    (S-1/h*(2*a(currNode,currGrp,5)*c1-...
+    (1-c2-c3)*(jin(currNode,currGrp,2,1)+jin(currNode,currGrp,1,1))));
 % Update a0 (node-average flux)
     

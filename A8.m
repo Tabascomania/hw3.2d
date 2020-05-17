@@ -6,8 +6,8 @@ stepOut = stepOut + 1; % Increment outer iteration step counter
 fprintf("Average flux level : %f\n",norm(a(:,:,1)));
 
 % Obtain the 1-group fission source (psi)
-psi(stepOut,:) = zeros(nodeDim,1);
-for i = 1:nodeDim
+psi(stepOut,:) = zeros(nodeDim2,1);
+for i = 1:nodeDim2
     currComp = node2comp(i);
     for G = 1:data.ng
         psi(stepOut,i) = psi(stepOut,i) + data.XSf(currComp,G) * a(i,G,1);

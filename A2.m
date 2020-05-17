@@ -1,5 +1,5 @@
-%% Part A Question 2
-% fprintf("A2\n");
+%% A2.m
+% Obtain initial residual
 
 % Obtain the 1-group total absorption rate (A)
 A = 0;

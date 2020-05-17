@@ -7,7 +7,7 @@ close all
 
 %% Part A. Preparation of the Code
 
-nodeCount = 1; % number of nodes per direction per assembly
+nodeCount = 4; % number of nodes per direction per assembly
 
 initialize(); % Define reactor core
 
@@ -19,7 +19,7 @@ epspsi = 1e-05; % fission source convergence criterion
 flagOut = false; % convergence indicator for outer iteration
 
 k(stepOut) = 1.0; % Initial eigenvalue guess
-
+    
 while ~flagOut % Repeat outer iteration until convergence
         
     fprintf("Outer iteration #%d\n",stepOut);
@@ -37,15 +37,13 @@ while ~flagOut % Repeat outer iteration until convergence
             currNode = nodeOrder(n);
             currComp = node2comp(currNode); % Material composition for this node
             for currGrp = 1:data.ng % Group sweep
-%                 A3(); % Leakge quadratic expansion; not yet implemented
+                A3(); % Leakge quadratic expansion; not yet implemented
                 A4(); % Update source coefficients
                 A5(); % Update flux coefficients
                 A6(); % Update outgoing partial currents 
             end
         end
         
-        plot(a(:,2,1))
-%         pause
         plotFlux();
         A7(); % Obtain residual
     end

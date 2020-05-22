@@ -12,6 +12,8 @@ q0 = zeros(totalNodes,data.ng); % node average source
 q = zeros(totalNodes,data.ng,4,2); % coefficients for source; [4 coefficients, 2 directions]
 l0 = zeros(totalNodes,data.ng,2); % node average leakage [2 directions]
 l = zeros(totalNodes,data.ng,2,2); % coefficients for leakage; [4 coefficients, 2 directions]
+f0 = zeros(totalNodes,data.ng); % node average fission source
+f = zeros(totalNodes,data.ng,4,2); % coefficients for fission source; [4 coefficients, 2 directions]
 
 % Initialize flux to be 1.0;
 a0(:,:) = 1.0;

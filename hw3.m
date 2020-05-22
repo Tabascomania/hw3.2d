@@ -7,7 +7,8 @@ close all
 
 %% Part A. Preparation of the Code
 
-nodeCount = 5; % number of nodes per direction per assembly
+nodeCount = 1; % number of nodes per direction per assembly
+assemConf = [1,2,3;2,1,3;3,3,3]; % core configuration (loading pattern)
 
 initialize(); % Define reactor core
 
@@ -20,6 +21,14 @@ flagOut = false; % convergence indicator for outer iteration
 
 k(stepOut) = 1.0; % Initial eigenvalue guess
     
+psi = zeros(totalNodes,1);
+for i = 1:totalNodes
+    currComp = node2comp(i);
+    for currGrp = 1:data.ng
+        psi(i) = psi(i) + data.XSf(currComp,currGrp) * a0(i,currGrp);
+    end
+end
+
 while ~flagOut % Repeat outer iteration until convergence
         
     fprintf("Outer iteration #%d\n",stepOut);
@@ -27,20 +36,19 @@ while ~flagOut % Repeat outer iteration until convergence
     A2(); % Obtain initial residual
     fprintf("Current r0 : %f\n",r0)
     fprintf("Current psi_1G : %f\n", psi_1G)
-    
-    stepIn = 1; % inner iteration step counter
-    epsin = 0.1; % inner iteration convergence condition
-    flagIn = false; % Convergence indicator for inner iteration
-    
-    % initial psi calculation
-    psi(stepOut,:) = zeros(totalNodes,1);
-    for i = 1:totalNodes
-        currComp = node2comp(i);
-        for G = 1:data.ng
-            psi(stepOut,i) = psi(stepOut,i) + data.XSf(currComp,G) * a0(i,G);
+        
+    for n = 1:totalNodes % Node sweep
+        currNode = nodeOrder(n);
+        currComp = node2comp(currNode); % Material composition for this node
+        for currGrp = 1:data.ng % Group sweep
+            fisSrc(); % Determine fission source
         end
     end
-
+    
+    stepIn = 1; % inner iteration step counter
+    epsin = 0.01; % inner iteration convergence condition
+    flagIn = false; % Convergence indicator for inner iteration
+    
     while ~flagIn % Repeat inner iteration until convergence
         for n = 1:totalNodes % Node sweep
             currNode = nodeOrder(n);
@@ -52,12 +60,13 @@ while ~flagOut % Repeat outer iteration until convergence
                 A6(); % Update outgoing partial currents 
             end
         end
-               
-
         A7(); % Obtain residual
+%         plotFlux();
+%         pause
     end
-     plotFlux();
+    
     A8(); % Update fission source and k-eigenvalue
+    fprintf("\n");
 end
 
 

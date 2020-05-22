@@ -1,8 +1,7 @@
 %% initialize.m
 % Define reactor core
 
-assemCount = 3; % number of assemblies per direction
-assemConf = [1,2,3;2,1,3;3,3,3]; % core configuration (loading pattern)
+assemCount = size(assemConf,2); % number of assemblies in one direction
 assemSize = 21.42; % size of each assembly [cm]
 nodeDim = nodeCount * assemCount; % number of nodes per direction
 totalNodes = nodeDim^2;

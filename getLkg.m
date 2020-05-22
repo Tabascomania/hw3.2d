@@ -1,14 +1,18 @@
-% lkg(³ëµå¹øÈ£,±×·ì,1ÀÌ¸é x¹æÇâ, 2ÀÌ¸é y¹æÇâ)
+% lkg(ë…¸ë“œë²ˆí˜¸,ê·¸ë£¹,1ì´ë©´ xë°©í–¥, 2ì´ë©´ yë°©í–¥)
 i0=1;i1=2;i2=3;
+
+inode = currNode;
+ig = currGrp;
 
 for ixy = 1 : 2
   %idir = 3 - ixy;
+  idir = ixy;
   lkg(inode, ig, ixy) = (jout(inode, ig, 2, idir) - jin(inode, ig, 2, idir)) / h...
                       + (jout(inode, ig, 1, idir) - jin(inode, ig, 1, idir)) / h;
-% ÀÌ°Å ÀÎµ¦½º´Â ±âÁ¸ ÄÚµå¿¡¼­ Àß ¸ÂÃç³õÀº °Í °°°í. ÀÌ°Ç ¿Ö ixy ´ë½Å idirÀ» ½á³ù³Ä
+% ì´ê±° ì¸ë±ìŠ¤ëŠ” ê¸°ì¡´ ì½”ë“œì—ì„œ ìž˜ ë§žì¶°ë†“ì€ ê²ƒ ê°™ê³ . ì´ê±´ ì™œ ixy ëŒ€ì‹  idirì„ ì¨ë†¨ëƒ
 end
 
-% ¾Æ °¢ ¹æÇâº°(x,y) Æò±Õ lkg. ±×·¡¼­ 0Â÷Ç×ÀÎ i0±º.
+% ì•„ ê° ë°©í–¥ë³„(x,y) í‰ê·  lkg. ê·¸ëž˜ì„œ 0ì°¨í•­ì¸ i0êµ°.
 li(inode, ig, i0, 1) = lkg(inode, ig, 1);
 li(inode, ig, i0, 2) = lkg(inode, ig, 2);
 
@@ -16,37 +20,39 @@ delh = 1e+6;
 % delh = 1 / (nsub * delh);
 delh = 1 / (nodeDim * delh);
 
+albedo = [0,Inf,0,Inf];
+
 lpen = 0;
 if (~lpen)
-  inb = nb(inode, :);
+  %inb = nb(inode, :);
   
   lkg_xc = lkg(inode, ig, 1); hxl = -1; hxr = 2;
-  if (inb(1) > nxy) % west neighboring node
+  if (ismember(inode,westNodes)) % west neighboring node
     lkg_xl = 0; hxl = -delh;
     if (albedo(1) == 0); lkg_xl = lkg_xc; hxl = -1; end
-    % albedo¸¦ º¤ÅÍÇüÅÂ·Î ¸¸µé¾î¾ß°Ú±¸¸¸. ¾Ëºñµµ°¡ 0ÀÌ¸é ¸®ÇÃ·ºÆ¼ºêÀÎµ¥.
+    % albedoë¥¼ ë²¡í„°í˜•íƒœë¡œ ë§Œë“¤ì–´ì•¼ê² êµ¬ë§Œ. ì•Œë¹„ë„ê°€ 0ì´ë©´ ë¦¬í”Œë ‰í‹°ë¸Œì¸ë°.
   else
-    lkg_xl = lkg(inb(1), ig, 1);
+    lkg_xl = lkg(inode-1, ig, 1);
   end
-  if (inb(2) > nxy) % east neighboring node
+  if (ismember(inode,eastNodes)) % east neighboring node
     lkg_xr = 0; hxr = 1 + delh;
     if (albedo(2) == 0); lkg_xr = lkg_xc; hxr = 2; end
   else
-    lkg_xr = lkg(inb(2), ig, 1);
+    lkg_xr = lkg(inode+1, ig, 1);
   end
   
   lkg_yc = lkg(inode, ig, 2); hyl = -1; hyr = 2;
-  if (inb(3) > nxy) % north neighboring node
+  if (ismember(inode,northNodes)) % north neighboring node
     lkg_yl = 0; hyl = -delh;
     if (albedo(3) == 0); lkg_yl = lkg_yc; hyl = -1; end
   else
-    lkg_yl = lkg(inb(3), ig, 2);
+    lkg_yl = lkg(inode-nodeDim, ig, 2);
   end
-  if (inb(4) > nxy) % south neighboring node
+  if (ismember(inode,southNodes)) % south neighboring node
     lkg_yr = 0; hyr = 1 + delh;
     if (albedo(4) == 0); lkg_yr = lkg_yc; hyr = 2; end
   else
-    lkg_yr = lkg(inb(4), ig, 2);
+    lkg_yr = lkg(inode+nodeDim, ig, 2);
   end
   
   ml = [1, 0, 0; 1, 2, -6; 1, -2, -6];

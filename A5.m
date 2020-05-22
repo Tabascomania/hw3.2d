@@ -46,6 +46,7 @@ c2 = (-8*beta)/((1+4*beta)*(1+12*beta));
 c3 = (1-48*beta^2)/((1+4*beta)*(1+12*beta));
 c4 = (6*beta)/(1+4*beta);
 
+
 Jsum=0;
 for dr=1:2
     Jsum=Jsum+(2*a(currNode,currGrp,4,dr)*c1-(1-c2-c3)*...

@@ -37,3 +37,12 @@ else
     l(currNode,currGrp,1,2) = (lkgRy - lkgLy) / 4;
     l(currNode,currGrp,2,2) = (2*l0(currNode,currGrp,2)-lkgRy-lkgLy) / 12;
 end
+
+%%
+getLkg();
+l0(currNode,currGrp,1) = li(currNode,currGrp,1,1);
+l0(currNode,currGrp,2) = li(currNode,currGrp,1,2);
+l(currNode,currGrp,1,1) = li(currNode,currGrp,2,1);
+l(currNode,currGrp,2,1) = li(currNode,currGrp,3,1);
+l(currNode,currGrp,1,2) = li(currNode,currGrp,2,2);
+l(currNode,currGrp,2,2) = li(currNode,currGrp,3,2);

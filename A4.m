@@ -20,7 +20,7 @@ end
 q10(currNode,currGrp) = q10(currNode,currGrp) - l0(currNode,currGrp,1) - l0(currNode,currGrp,2);
 for dir = 1:2
     for i = 1:4    
-            q1(currNode,currGrp,i,dir) = f(currNode,currGrp,i);
+            q1(currNode,currGrp,i,dir) = f(currNode,currGrp,i,dir);
         for G = 1:data.ng
             q1(currNode,currGrp,i,dir) = q1(currNode,currGrp,i,dir) + data.XSin(currComp,currGrp,G)*a(currNode,G,i,dir);
         end

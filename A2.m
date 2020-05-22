@@ -52,10 +52,10 @@ Ly = sum(jout(southNodes,:,2,2).*h,'all');
 %     end
 % end
 
-fprintf("Current step A : %f\n",A);
-fprintf("Current step psi_1G : %f\n",psi_1G);
-fprintf("Current step Lx : %f\n",Lx);
-fprintf("Current step Ly : %f\n",Ly);
+% fprintf("Current step A : %f\n",A);
+% fprintf("Current step psi_1G : %f\n",psi_1G);
+% fprintf("Current step Lx : %f\n",Lx);
+% fprintf("Current step Ly : %f\n",Ly);
 
 % Neutron balance equation (residual)
 r0 = 1/k(stepOut) * psi_1G - (Lx + Ly + A);

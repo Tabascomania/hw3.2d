@@ -3,7 +3,7 @@
 
 stepOut = stepOut + 1; % Increment outer iteration step counter
 prevPsi = psi;
-fprintf("Average flux level : %f\n",norm(a(:,:,1)));
+fprintf("Average flux level : %f\n",norm(a0(:,:)));
 
 % Obtain the 1-group fission source (psi)
 psi = zeros(totalNodes,1);
@@ -19,12 +19,12 @@ k(stepOut) = k(stepOut-1) * dot(psi,psi)/dot(psi,prevPsi);
 if stepOut > 2
     if abs(k(stepOut)-k(stepOut-1))/k(stepOut) < epsk
         if norm(psi-prevPsi)/norm(psi) < epspsi
-            flag = true; % Signal outer iteration convergence
+            flagOut = true; % Signal outer iteration convergence
         end
     end
 end
 
-if flag == true
+if flagOut == true
     % obtain assembly-wise absorption rate distribution
 end
 

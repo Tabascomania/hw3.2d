@@ -34,3 +34,19 @@ for k = 1:assemCount; for l = 1:nodeCount
     node2comp(nodeIndex) = assemConf(i,k);
     nodeIndex = nodeIndex + 1;
 end; end; end; end
+
+nb = zeros(totalNodes,4); % neighboring nodes info
+for i = 1:totalNodes
+    if ismember(i,northNodes)
+        nb(i,1) = -1;
+    end
+    if ismember(i,westNodes)
+        nb(i,2) = -1;
+    end
+    if ismember(i,eastNodes)
+        nb(i,3) = -1;
+    end
+    if ismember(i,southNodes)
+        nb(i,4) = -1;
+    end
+end

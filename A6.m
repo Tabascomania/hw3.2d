@@ -16,22 +16,24 @@ y = A*x+b; % Update current
 jout(currNode,currGrp,:,1)=y(1:2,1);
 jout(currNode,currGrp,:,2)=y(3:4,1);
 
-if ~ismember(currNode,westNodes) % If there is a node on the left...
+inb = nb(currNode,:);
+
+if inb(2) ~= -1 % If there is a node on the left...
     jin(currNode-1,currGrp,2,1) = jout(currNode,currGrp,1,1);
 end
-if ~ismember(currNode,eastNodes) % If there is a node on the right
+if inb(3) ~= -1 % If there is a node on the right
     jin(currNode+1,currGrp,1,1) = jout(currNode,currGrp,2,1);
 end
-if ~ismember(currNode,northNodes) % If there is a node above...
+if inb(1) ~= -1 % If there is a node above...
     jin(currNode-nodeDim,currGrp,2,2) = jout(currNode,currGrp,1,2);
 end
-if ~ismember(currNode,southNodes) % If there is a node below
+if inb(4) ~= -1 % If there is a node below
     jin(currNode+nodeDim,currGrp,1,2) = jout(currNode,currGrp,2,2);
 end
 
-if ismember(currNode,northNodes)
+if inb(1) == -1
     jin(currNode,currGrp,1,2) = jout(currNode,currGrp,1,2); % Reflective boundary condition
 end
-if ismember(currNode,westNodes)
+if inb(2) == -1
     jin(currNode,currGrp,1,1) = jout(currNode,currGrp,1,1); % Reflective boundary condition
 end

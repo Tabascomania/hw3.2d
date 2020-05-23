@@ -7,7 +7,7 @@ close all
 
 %% Part A. Preparation of the Code
 tic
-nodeCount = 1; % number of nodes per direction per assembly
+nodeCount = 4; % number of nodes per direction per assembly
 assemConf = [1,2,3;2,1,3;3,3,3]; % core configuration (loading pattern)
 
 initialize(); % Define reactor core
@@ -16,7 +16,7 @@ A1(); % Setup variables
 
 stepOut = 1; % outer iteration step counter
 epsk = 1e-06; % eigenvalue convergence criterion
-epspsi = 1e-04; % fission source convergence criterion
+epspsi = 1e-05; % fission source convergence criterion
 flagOut = false; % convergence indicator for outer iteration
 
 k(stepOut) = 1.0; % Initial eigenvalue guess
@@ -36,9 +36,9 @@ while ~flagOut % Repeat outer iteration until convergence
     fprintf("Outer iteration #%d\n",stepOut);
     fprintf("Current k : %f\n",k(stepOut));
     A2(); % Obtain initial residual
-    fprintf("Current r0 : %f\n",r0)
-    fprintf("Current psi_1G : %f\n", psi_1G)
-        
+%     fprintf("Current r0 : %f\n",r0)
+%     fprintf("Current psi_1G : %f\n", psi_1G)
+
     for n = 1:totalNodes % Node sweep
         currNode = nodeOrder(n);
         currComp = node2comp(currNode); % Material composition for this node
@@ -51,11 +51,9 @@ while ~flagOut % Repeat outer iteration until convergence
     epsin = 0.01; % inner iteration convergence condition
     flagIn = false; % Convergence indicator for inner iteration
     
-    if stepOut == 2
-        temp = 1;
-    end
     
     while ~flagIn % Repeat inner iteration until convergence
+        
         for n = 1:totalNodes % Node sweep
             currNode = nodeOrder(n);
             currComp = node2comp(currNode); % Material composition for this node
@@ -63,18 +61,27 @@ while ~flagOut % Repeat outer iteration until convergence
                 A3(); % Leakge quadratic expansion
                 A4(); % Update source coefficients
                 A5(); % Update flux coefficients
-                A6(); % Update outgoing partial currents 
+                A6(); % Update outgoing partial currents
             end
         end
+        
         A7(); % Obtain residual
-%         plotFlux();
     end
-%     if mod(stepOut,10) == 0
-%         plotFlux();
-%     end
-                A8(); % Update fission source and k-eigenvalue
+    
+    A8(); % Update fission source and k-eigenvalue
     fprintf("\n");
 end
 toc
+fprintf("Eigenvalue: %.10f\n",k(stepOut));
+plotFlux();
 
 %% Part B. Examination of the Code
+
+% before: 30.5 [sec]
+% explicit: 23.6 [sec]
+% matrix: 23.9 [sec]
+
+% inb: 17.5 [sec]
+
+% 0.9388551387
+% 0.9388568508

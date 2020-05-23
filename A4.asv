@@ -1,7 +1,7 @@
 %% A4.m
 % Update source coefficients
 
-% q0(currNode,currGrp) = f0(currNode,currGrp); 
+q0(currNode,currGrp) = f0(currNode,currGrp); 
 % q0(currNode,currGrp) = f0(currNode,currGrp) + squeeze(data.XSin(currComp,currGrp,:))'*a0(currNode,:)' - sum(l0(currNode,currGrp,:));
 % 
 % for dir = 1:2

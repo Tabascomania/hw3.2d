@@ -49,7 +49,7 @@ for i = 1:nodeDim
     P(:,3) = 6*x.*(1-x).*(2*x-1);
     P(:,4) = 6*x.*(1-x).*(5*x.^2-5*x+1);
     
-    fis(:,i) = (q0(i,1) + q(i,1,1,1) .* P(:,1) + q(i,1,2,1) .* P(:,2) + q(i,1,3,1) .* P(:,3) + q(i,1,4,1) .* P(:,4))';
+    fis(:,i) = (f0(i,1) + f(i,1,1,1) .* P(:,1) + f(i,1,2,1) .* P(:,2) + f(i,1,3,1) .* P(:,3) + f(i,1,4,1) .* P(:,4))';
 end
 fis = reshape(fis,[1,nodeDim*100]);
 plot(fis)
@@ -62,6 +62,9 @@ avgP(1:nodeDim,1:nodeDim) = reshape(a0(:,1),[nodeDim,nodeDim]);
 surf(avgP)
 pause
 
+avgP = zeros(nodeDim+1,nodeDim+1);
+avgP(1:nodeDim,1:nodeDim) = reshape(f0(:,1),[nodeDim,nodeDim]);
+surf(avgP)
 
 % phi = zeros(nodeDim*10,nodeDim*10);
 % g = 1;

@@ -1,22 +1,22 @@
 %% A5.m
 % Update flux coefficients
 
-phiR = 2*(jout(currNode,currGrp,2,:)+jin(currNode,currGrp,2,:));
-phiL = 2*(jout(currNode,currGrp,1,:)+jin(currNode,currGrp,1,:));
-a(currNode,currGrp,1,:) = (phiR-phiL)/2; % Update a1
-a(currNode,currGrp,2,:) = a0(currNode,currGrp)-(phiR+phiL)/2; % Update a2   
-
-a(currNode,currGrp,3,:) = (5*q(currNode,currGrp,1,:)+3*q(currNode,currGrp,3,:)-...
-    5*a(currNode,currGrp,1,:)*data.XSr(currComp,currGrp))/...
-    (3*(60*data.XSD(currComp,currGrp)+data.XSr(currComp,currGrp))); % Update a3
-a(currNode,currGrp,4,:) = (-7*q(currNode,currGrp,2,:)+3*q(currNode,currGrp,4,:)+...
-    7*a(currNode,currGrp,2,:)*data.XSr(currComp,currGrp))/...
-    (3*(140*data.XSD(currComp,currGrp)+data.XSr(currComp,currGrp))); % Update a4
-
-phiR = 2*(jout(currNode,currGrp,2,1)+jin(currNode,currGrp,2,1));
-phiL = 2*(jout(currNode,currGrp,1,1)+jin(currNode,currGrp,1,1));
-a(currNode,currGrp,2) = (phiR-phiL)/2; % Update a1
-a(currNode,currGrp,3) = a(currNode,currGrp,1)-(phiR+phiL)/2; % Update a2
+% phiR = 2*(jout(currNode,currGrp,2,:)+jin(currNode,currGrp,2,:));
+% phiL = 2*(jout(currNode,currGrp,1,:)+jin(currNode,currGrp,1,:));
+% a(currNode,currGrp,1,:) = (phiR-phiL)/2; % Update a1
+% a(currNode,currGrp,2,:) = a0(currNode,currGrp)-(phiR+phiL)/2; % Update a2   
+% 
+% a(currNode,currGrp,3,:) = (5*q(currNode,currGrp,1,:)+3*q(currNode,currGrp,3,:)-...
+%     5*a(currNode,currGrp,1,:)*data.XSr(currComp,currGrp))/...
+%     (3*(60*data.XSD(currComp,currGrp)+data.XSr(currComp,currGrp))); % Update a3
+% a(currNode,currGrp,4,:) = (-7*q(currNode,currGrp,2,:)+3*q(currNode,currGrp,4,:)+...
+%     7*a(currNode,currGrp,2,:)*data.XSr(currComp,currGrp))/...
+%     (3*(140*data.XSD(currComp,currGrp)+data.XSr(currComp,currGrp))); % Update a4
+% 
+% phiR = 2*(jout(currNode,currGrp,2,1)+jin(currNode,currGrp,2,1));
+% phiL = 2*(jout(currNode,currGrp,1,1)+jin(currNode,currGrp,1,1));
+% a(currNode,currGrp,2) = (phiR-phiL)/2; % Update a1
+% a(currNode,currGrp,3) = a(currNode,currGrp,1)-(phiR+phiL)/2; % Update a2
 
 %% Part A Question 5
 % fprintf("A5\n");

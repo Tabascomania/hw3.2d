@@ -24,17 +24,17 @@ albedo = [0,Inf,0,Inf];
 
 lpen = 0;
 if (~lpen)
-  %inb = nb(inode, :);
+  inb = nb(inode, :);
   
   lkg_xc = lkg(inode, ig, 1); hxl = -1; hxr = 2;
-  if (ismember(inode,westNodes)) % west neighboring node
+  if (inb(2) == -1) % west neighboring node
     lkg_xl = 0; hxl = -delh;
     if (albedo(1) == 0); lkg_xl = lkg_xc; hxl = -1; end
     % albedo를 벡터형태로 만들어야겠구만. 알비도가 0이면 리플렉티브인데.
   else
     lkg_xl = lkg(inode-1, ig, 1);
   end
-  if (ismember(inode,eastNodes)) % east neighboring node
+  if (inb(3) == -1) % east neighboring node
     lkg_xr = 0; hxr = 1 + delh;
     if (albedo(2) == 0); lkg_xr = lkg_xc; hxr = 2; end
   else
@@ -42,13 +42,13 @@ if (~lpen)
   end
   
   lkg_yc = lkg(inode, ig, 2); hyl = -1; hyr = 2;
-  if (ismember(inode,northNodes)) % north neighboring node
+  if (inb(1) == -1) % north neighboring node
     lkg_yl = 0; hyl = -delh;
     if (albedo(3) == 0); lkg_yl = lkg_yc; hyl = -1; end
   else
     lkg_yl = lkg(inode-nodeDim, ig, 2);
   end
-  if (ismember(inode,southNodes)) % south neighboring node
+  if (inb(4) == -1) % south neighboring node
     lkg_yr = 0; hyr = 1 + delh;
     if (albedo(4) == 0); lkg_yr = lkg_yc; hyr = 2; end
   else

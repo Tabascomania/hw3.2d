@@ -3,7 +3,7 @@
 
 stepOut = stepOut + 1; % Increment outer iteration step counter
 prevPsi = psi;
-fprintf("Average flux level : %f\n",norm(a0(:,:)));
+% fprintf("Average flux level : %f\n",norm(a0(:,:)));
 
 % Obtain the 1-group fission source (psi)
 psi = zeros(totalNodes,1);

@@ -11,8 +11,10 @@ nodeCount = 4; % number of nodes per direction per assembly
 assemConf = [1,2,3;2,1,3;3,3,3]; % core configuration (loading pattern)
 
 initialize(); % Define reactor core
-
 A1(); % Setup variables
+Dtil();
+Dhatx=zeros(nodeDim,nodeDim+1,data.ng);
+Dhaty=zeros(nodeDim+1,nodeDim,data.ng);
 
 stepOut = 1; % outer iteration step counter
 epsk = 1e-06; % eigenvalue convergence criterion
@@ -30,6 +32,8 @@ for i = 1:totalNodes
 end
 
 lkg = zeros(totalNodes,data.ng,3);
+
+
 
 while ~flagOut % Repeat outer iteration until convergence
         
@@ -61,9 +65,11 @@ while ~flagOut % Repeat outer iteration until convergence
                 A3(); % Leakge quadratic expansion
                 A4(); % Update source coefficients
                 A5(); % Update flux coefficients
-                A6(); % Update outgoing partial currents
+%                 A6(); % Update outgoing partial currents
+                A6_cmfd();
             end
         end
+        cmfditr();
         
         A7(); % Obtain residual
     end

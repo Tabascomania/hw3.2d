@@ -1,5 +1,5 @@
-%% Part A Question 6: Response matrix
-% fprintf("A6\n");
+%% A6.m
+% Update outgoing partial currents
 
 A = [c3,c2,0,0,c1;...
     c2,c3,0,0,c1;...

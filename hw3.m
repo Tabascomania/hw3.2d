@@ -12,6 +12,7 @@ assemConf = [1,2,3;2,1,3;3,3,3]; % core configuration (loading pattern)
 
 initialize(); % Define reactor core
 A1(); % Setup variables
+cmfd_setup(); % Setup CMFD variables
 
 stepOut = 1; % outer iteration step counter
 epsk = 1e-06; % eigenvalue convergence criterion
@@ -69,9 +70,17 @@ while ~flagOut % Repeat outer iteration until convergence
         A7(); % Obtain residual
     end
     
+    if mod(stepOut,5) == 0
+        CMFD(); % CMFD iteration
+    end
+    
     A8(); % Update fission source and k-eigenvalue
     fprintf("\n");
 end
 toc
 fprintf("Eigenvalue: %.10f\n",k(stepOut));
 plotFlux();
+
+% Outer iteration #34
+% Elapsed time is 119.143577 seconds.
+% Eigenvalue: 0.9391072160

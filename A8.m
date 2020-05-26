@@ -2,34 +2,29 @@
 % fprintf("A8\n");
 
 stepOut = stepOut + 1; % Increment outer iteration step counter
-
-fprintf("Average flux level : %f\n",norm(a(:,:,1)));
+prevPsi = psi;
+% fprintf("Average flux level : %f\n",norm(a0(:,:)));
 
 % Obtain the 1-group fission source (psi)
-psi(stepOut,:) = zeros(nodeDim2,1);
-for i = 1:nodeDim2
+psi = zeros(totalNodes,1);
+for i = 1:totalNodes
     currComp = node2comp(i);
     for G = 1:data.ng
-        psi(stepOut,i) = psi(stepOut,i) + data.XSf(currComp,G) * a(i,G,1);
+        psi(i) = psi(i) + data.XSf(currComp,G) * a0(i,G);
     end
 end
 
-if stepOut > 2
-    k(stepOut) = k(stepOut-1) * dot(psi(stepOut,:),psi(stepOut,:))/dot(psi(stepOut,:),psi(stepOut-1,:));
-else
-    k(stepOut) = 1;
-    %k(stepOut) = k(stepOut-1) * norm(psi(stepOut,:))/psi_1G;
-end
+k(stepOut) = k(stepOut-1) * dot(psi,psi)/dot(psi,prevPsi);
 
 if stepOut > 2
     if abs(k(stepOut)-k(stepOut-1))/k(stepOut) < epsk
-        if norm(psi(stepOut,:)-psi(stepOut-1,:))/norm(psi(stepOut,:)) < epspsi
-            flag = true; % Signal outer iteration convergence
+        if norm(psi-prevPsi)/norm(psi) < epspsi
+            flagOut = true; % Signal outer iteration convergence
         end
     end
 end
 
-if flag == true
+if flagOut == true
     % obtain assembly-wise absorption rate distribution
 end
 

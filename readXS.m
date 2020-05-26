@@ -34,9 +34,9 @@ for comp = 1:data.ncomp
     for g = 1:data.ng
         currGrp = rawInput(readIndex);
         readIndex = readIndex + 1;
-        for g1 = 1:data.ng
+        for G = 1:data.ng
             % In-scattering XS from g1 to currGrp
-            data.XSin(currComp,currGrp,g1) = rawInput(readIndex);
+            data.XSin(currComp,currGrp,G) = rawInput(readIndex);
             readIndex = readIndex + 1;
         end
     end

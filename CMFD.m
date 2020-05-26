@@ -12,14 +12,14 @@ source(); % update source
 while ~flag
     
     stepCMFD = stepCMFD + 1;
-    
-    source(); % update source
+        
+    source();
     
     GS(); % Gauss Seidel iteration
     
-    if stepCMFD == 100
+    if stepCMFD == 200
         flag = true;
     end
 end
-plotFlux()
+% plotFlux()
 j_update(); % Update incoming current

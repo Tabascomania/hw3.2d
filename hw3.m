@@ -7,8 +7,8 @@ close all
 
 %% Part A. Preparation of the Code
 tic
-nodeCount = 8; % number of nodes per direction per assembly
-assemConf = [1,2,3;2,1,3;3,3,3]; % core configuration (loading pattern)
+nodeCount = 4; % number of nodes per direction per assembly
+assemConf = [1,2,1,2,3;2,1,2,1,3;1,2,1,2,3;2,1,2,1,3;3,3,3,3,3]; % core configuration (loading pattern)
 
 initialize(); % Define reactor core
 A1(); % Setup variables
@@ -40,7 +40,7 @@ while ~flagOut % Repeat outer iteration until convergence
     A2(); % Obtain initial residual
 %     fprintf("Current r0 : %f\n",r0)
 %     fprintf("Current psi_1G : %f\n", psi_1G)
-
+ 
     for n = 1:totalNodes % Node sweep
         currNode = nodeOrder(n);
         currComp = node2comp(currNode); % Material composition for this node
@@ -70,7 +70,7 @@ while ~flagOut % Repeat outer iteration until convergence
         A7(); % Obtain residual
     end
     
-    if mod(stepOut,5) == 0
+    if mod(stepOut,2) == 0
         CMFD(); % CMFD iteration
     end
     
@@ -81,6 +81,33 @@ toc
 fprintf("Eigenvalue: %.10f\n",k(stepOut));
 plotFlux();
 
-% Outer iteration #34
-% Elapsed time is 119.143577 seconds.
-% Eigenvalue: 0.9391072160
+% 4-by-4 core results (node: 8x8)
+% Without CMFD:
+%     Outer iteration #59
+%     Elapsed time is 376.905024 seconds.
+%     Eigenvalue: 0.9804640320
+% With CMFD (5 NEM, 1 CMFD):
+%     Outer iteration #58
+%     Elapsed time is 521.574009 seconds.
+%     Eigenvalue: 0.9804639953
+
+% 5-by-5 core results (node: 4x4)
+% Without CMFD:
+%     Outer iteration #90
+%     Elapsed time is 118.831919 seconds.
+%     Eigenvalue: 0.9981789446
+% With CMFD (5 NEM, 1 CMFD):
+%     Outer iteration #90
+%     Elapsed time is 176.082524 seconds.
+%     Eigenvalue: 0.9981789461
+% With CMFD (2 NEM, 1 CMFD):
+%     Outer iteration #90
+%     Elapsed time is 267.642356 seconds.
+%     Eigenvalue: 0.9981789437
+
+% 6-by-6 core results (node: 4x4)
+% Without CMFD:
+%     Outer iteration #128
+%     Elapsed time is 243.372941 seconds.
+%     Eigenvalue: 1.0070369437
+% Without CMFD:

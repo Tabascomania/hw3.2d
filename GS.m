@@ -2,10 +2,9 @@
 % Gauss Seidel iteration
 
 phi = a0;
-a0
-for iter = 1:1
+for iter = 1:10
     for g = 1:data.ng
-        for i = 1:totalNodes
+        for j = 1:totalNodes
             inb = nb(i,:);
             rhs = RHS(i,g);
             if inb(1) ~= -1 % not a north node
@@ -26,4 +25,3 @@ for iter = 1:1
 end
 
 a0 = phi;
-a0

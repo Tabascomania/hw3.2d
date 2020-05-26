@@ -20,6 +20,12 @@ for i = 1:nodeDim % row
                 (a0(currNode+1,currGrp)+a0(currNode,currGrp));
         end
     end
+    j = 1;
+    currNode = (i-1)*nodeDim + j;
+    for currGrp = 1:data.ng
+        Dx_hat(i,1,currGrp) = (Jx(i,1,currGrp)+Dx_tilde(i,1,currGrp)*...
+            a0(currNode,currGrp))/a0(currNode,currGrp);
+    end
     j = nodeDim;
     currNode = (i-1)*nodeDim + j;
     for currGrp = 1:data.ng
@@ -46,6 +52,12 @@ for i = 1:nodeDim % column
                 (a0(currNode+nodeDim,currGrp)-a0(currNode,currGrp)))/...
                 (a0(currNode+nodeDim,currGrp)+a0(currNode,currGrp));
         end
+    end
+    j = 1;
+    currNode = i;
+    for currGrp = 1:data.ng
+        Dy_hat(1,i,currGrp) = (Jy(1,i,currGrp)+Dy_tilde(1,i,currGrp)*...
+            a0(currNode,currGrp))/a0(currNode,currGrp);
     end
     j = nodeDim;
     currNode = i + (j-1)*nodeDim;

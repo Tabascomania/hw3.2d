@@ -7,12 +7,52 @@ close all
 
 %% Part A. Preparation of the Code
 tic
-nodeCount = 4; % number of nodes per direction per assembly
-assemConf = [1,2,1,2,3;2,1,2,1,3;1,2,1,2,3;2,1,2,1,3;3,3,3,3,3]; % core configuration (loading pattern)
+nodeCount = 1; % number of nodes per direction per assembly
+assemConf = [...
+    1,2,1,2,3;...
+    2,1,2,1,3;...
+    1,2,1,2,3;...
+    2,1,2,1,3;...
+    3,3,3,3,3]; % core configuration (loading pattern)
+
+% assemConf = [...
+%     1,2,1,2,1,2,3;...
+%     2,1,2,1,2,1,3;...
+%     1,2,1,2,1,2,3;...
+%     2,1,2,1,2,1,3;...
+%     1,2,1,2,1,2,3;...
+%     2,1,2,1,2,1,3;...
+%     3,3,3,3,3,3,3]; % core configuration (loading pattern)
+
+% assemConf = [...
+%     1,2,1,2,1,2,1,2,3;...
+%     2,1,2,1,2,1,2,1,3;...
+%     1,2,1,2,1,2,1,2,3;...
+%     2,1,2,1,2,1,2,1,3;...
+%     1,2,1,2,1,2,1,2,3;...
+%     2,1,2,1,2,1,2,1,3;...
+%     1,2,1,2,1,2,1,2,3;...
+%     2,1,2,1,2,1,2,1,3;...
+%     1,2,1,2,1,2,1,2,3;...
+%     3,3,3,3,3,3,3,3,3]; % core configuration (loading pattern)
+
+% assemConf = [...
+%     1,2,1,2,1,2,1,2,1,2,3;...
+%     2,1,2,1,2,1,2,1,2,1,3;...
+%     1,2,1,2,1,2,1,2,1,2,3;...
+%     2,1,2,1,2,1,2,1,2,1,3;...
+%     1,2,1,2,1,2,1,2,1,2,3;...
+%     2,1,2,1,2,1,2,1,2,1,3;...
+%     1,2,1,2,1,2,1,2,1,2,3;...
+%     2,1,2,1,2,1,2,1,2,1,3;...
+%     1,2,1,2,1,2,1,2,1,2,3;...
+%     2,1,2,1,2,1,2,1,2,1,3;...
+%     1,2,1,2,1,2,1,2,1,2,3;...
+%     3,3,3,3,3,3,3,3,3,3,3]; % core configuration (loading pattern)
 
 initialize(); % Define reactor core
 A1(); % Setup variables
-cmfd_setup(); % Setup CMFD variables
+cmfd_setup(); % Setup CMFD variables (D_tilde,alpha)
 
 stepOut = 1; % outer iteration step counter
 epsk = 1e-06; % eigenvalue convergence criterion
@@ -68,10 +108,15 @@ while ~flagOut % Repeat outer iteration until convergence
         end
         
         A7(); % Obtain residual
+        
+%         if stepIn == 3
+%             flagIn = true;
+%         end
     end
     
     if mod(stepOut,2) == 0
         CMFD(); % CMFD iteration
+%         plotFlux();
     end
     
     A8(); % Update fission source and k-eigenvalue
@@ -81,33 +126,43 @@ toc
 fprintf("Eigenvalue: %.10f\n",k(stepOut));
 plotFlux();
 
-% 4-by-4 core results (node: 8x8)
-% Without CMFD:
-%     Outer iteration #59
-%     Elapsed time is 376.905024 seconds.
-%     Eigenvalue: 0.9804640320
-% With CMFD (5 NEM, 1 CMFD):
-%     Outer iteration #58
-%     Elapsed time is 521.574009 seconds.
-%     Eigenvalue: 0.9804639953
 
-% 5-by-5 core results (node: 4x4)
+% 5-by-5 core results (node: 1x1)
 % Without CMFD:
-%     Outer iteration #90
-%     Elapsed time is 118.831919 seconds.
-%     Eigenvalue: 0.9981789446
-% With CMFD (5 NEM, 1 CMFD):
-%     Outer iteration #90
-%     Elapsed time is 176.082524 seconds.
-%     Eigenvalue: 0.9981789461
+%     Outer iteration #87
+%     Elapsed time is 2.379742 seconds.
+%     Eigenvalue: 0.9961454497
 % With CMFD (2 NEM, 1 CMFD):
-%     Outer iteration #90
-%     Elapsed time is 267.642356 seconds.
-%     Eigenvalue: 0.9981789437
-
-% 6-by-6 core results (node: 4x4)
+%     Outer iteration #85
+%     Elapsed time is 4.772664 seconds.
+%     Eigenvalue: 0.9961456144
+% 
+% 7-by-7 core results (node: 1x1)
 % Without CMFD:
-%     Outer iteration #128
-%     Elapsed time is 243.372941 seconds.
-%     Eigenvalue: 1.0070369437
+%     Outer iteration #165
+%     Elapsed time is 9.091416 seconds.
+%     Eigenvalue: 1.0106434905
+% Without CMFD (2 NEM, 1 CMFD) :
+%     Outer iteration #163
+%     Elapsed time is 16.447340 seconds.
+%     Eigenvalue: 1.0106436040
+% 
+% 9-by-9 core results (node: 1x1)
 % Without CMFD:
+%     Outer iteration #302
+%     Elapsed time is 26.868898 seconds.
+%     Eigenvalue: 1.0168323575
+% Without CMFD (2 NEM, 1 CMFD) :
+%     Outer iteration #268
+%     Elapsed time is 46.533465 seconds.
+%     Eigenvalue: 1.0168324280
+% 
+% 11-by-11 core results (node: 1x1)
+% Without CMFD:
+%     Outer iteration #419
+%     Elapsed time is 55.802738 seconds.
+%     Eigenvalue: 1.0192702058
+% Without CMFD (2 NEM, 1 CMFD) :
+%     Outer iteration #402
+%     Elapsed time is 100.990888 seconds.
+%     Eigenvalue: 1.0192702163

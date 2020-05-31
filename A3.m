@@ -46,3 +46,7 @@ l(currNode,currGrp,1,1) = li(currNode,currGrp,2,1);
 l(currNode,currGrp,2,1) = li(currNode,currGrp,3,1);
 l(currNode,currGrp,1,2) = li(currNode,currGrp,2,2);
 l(currNode,currGrp,2,2) = li(currNode,currGrp,3,2);
+% l(currNode,currGrp,1,1) = 0;
+% l(currNode,currGrp,2,1) = 0;
+% l(currNode,currGrp,1,2) = 0;
+% l(currNode,currGrp,2,2) = 0;
